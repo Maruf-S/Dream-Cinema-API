@@ -117,5 +117,5 @@ class UserRegister(Resource):
 
 class CurrentUser(Resource):
     @jwt_required()
-    def get():
+    def get(self):
         return user_schema.dump(current_identity)

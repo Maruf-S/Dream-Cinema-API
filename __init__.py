@@ -5,8 +5,7 @@ from flask_jwt import JWT, jwt_required, current_identity
 import uuid
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
-
-
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -20,6 +19,7 @@ app.secret_key = 'dreamcinema123fdjkernfj12nkjwfnejwfknnjvndiufv'
 db = SQLAlchemy()
 db.init_app(app)
 
+CORS(app)
 ma = Marshmallow(app)
 
 api = Api(app,version='1.0',title='Dream Cinema API',
