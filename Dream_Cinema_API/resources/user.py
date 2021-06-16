@@ -48,27 +48,16 @@ class UsersRegister(Resource):
         new_user.Password = hashedPS
         new_user.save_to_db()
         return user_schema.dump(new_user), 201
-        
 
-class UserRegister(Resource):
-    
-    def get(self, id):
-        '''
-            Get a User by id
-        '''
-        user = UserModel.find_by_id(id)
-        if user:
-            return user_schema.dump(user),200
-        return {"message": "User is not found!"}, 404
 
     @jwt_required()
     @api.expect(user)
-    def put(self, id):
+    def put(self):
         '''
             Update an existing User
         '''
         
-        user = UserModel.find_by_id(id)
+        user = current_identity
         if user:
             data = request.get_json()
             j = []
@@ -90,18 +79,30 @@ class UserRegister(Resource):
         return {"message": "User is not found!"}, 404
 
         
-    
     @jwt_required()
-    def delete(self, id):
+    def delete(self):
         '''
             delete a user from database
         '''
         # return user_schema.dump(current_identity)
-        user = UserModel.find_by_id(id)
+        user = current_identity
         if user:
             user.delete_from_db()
             return {"message": "User is successfully deleted!"}, 200
         return {"message": "User is not found!"}, 404
+        
+
+class UserRegister(Resource):
+    
+    def get(self, id):
+        '''
+            Get a User by id
+        '''
+        user = UserModel.find_by_id(id)
+        if user:
+            return user_schema.dump(user),200
+        return {"message": "User is not found!"}, 404
+
 
 class CurrentUser(Resource):
     @jwt_required()
