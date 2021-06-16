@@ -112,19 +112,6 @@ class Movie(Resource):
             return movie_schema.dump(movieToEdit), 200
         
         return {"message" : "Movie not found"}, 404
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
     def delete(self, id):
         '''

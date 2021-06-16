@@ -1,7 +1,7 @@
 from Dream_Cinema_API import db
 from datetime import datetime
 
-from backend import app
+from Dream_Cinema_API import app
 
 app.app_context().push()
 
