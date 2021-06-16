@@ -7,6 +7,7 @@ from flask_jwt import *
 from Dream_Cinema_API.models.movie import MovieModel
 from Dream_Cinema_API.ma import *
 from Dream_Cinema_API import api
+import dateutil.parser
 
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
@@ -49,11 +50,11 @@ class MovieList(Resource):
         new_movie.Postor = request.json['Postor']
         new_movie.Background = request.json['Background']
         new_movie.Trailer = request.json['Trailer']
-        new_movie.Screening = datetime(int(scdate[6:10]), int(scdate[:2]), int(scdate[3:5]),int(scdate[11:13]), int(scdate[14:16]), 00)
+        new_movie.Screening = dateutil.parser.isoparse(scdate)
         new_movie.Genre = request.json['Genre']
         new_movie.IDMBRating = request.json['IDMBRating']
         new_movie.AiredBy = request.json['AiredBy']
-        new_movie.ReleaseDate = datetime(int(reldate[6:10]), int(reldate[:2]), int(reldate[3:5]), 00, 00, 00)
+        new_movie.ReleaseDate = dateutil.parser.isoparse(reldate)
         new_movie.Ticket = request.json['Ticket']
 
         new_movie.save_to_db()
