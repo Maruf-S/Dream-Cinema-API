@@ -1,7 +1,7 @@
 from flask_marshmallow import Marshmallow
-from backend.models.user import *
-from backend.models.movie import *
-from backend.models.comment import *
+from Dream_Cinema_API.models.user import *
+from Dream_Cinema_API.models.movie import *
+from Dream_Cinema_API.models.comment import *
 
 ma = Marshmallow()
 

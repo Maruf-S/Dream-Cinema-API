@@ -2,11 +2,11 @@ from flask import request,jsonify
 from flask_restplus import Resource, reqparse, Api, fields
 from flask_jwt import current_identity
 from flask_jwt import jwt_required
-import json
 
-from backend.models.user import *
-from backend.ma import *
-from backend import api
+from Dream_Cinema_API.models.user import *
+from Dream_Cinema_API.ma import *
+from Dream_Cinema_API import api
+from Dream_Cinema_API import bcrypt
 
 
 user_schema = UserSchema()
@@ -37,14 +37,15 @@ class UsersRegister(Resource):
         Username = request.json['Email']
         Email = request.json['Email']
         Password = request.json['Password']
+        hashedPS = bcrypt.generate_password_hash(Password).decode('utf-8')
 
         if UserModel.find_by_email(Email):
             return {"message": "Email is already taken"}, 409
         
         new_user = UserModel()
-        new_user.Username = Username
+        new_user.Username = Email
         new_user.Email = Email
-        new_user.Password = Password
+        new_user.Password = hashedPS
         new_user.save_to_db()
         return user_schema.dump(new_user), 201
         
@@ -60,44 +61,31 @@ class UserRegister(Resource):
             return user_schema.dump(user),200
         return {"message": "User is not found!"}, 404
 
-    
+    @jwt_required()
     @api.expect(user)
     def put(self, id):
         '''
             Update an existing User
         '''
-        # user = UserModel.find_by_id(id)
-        # userd = user_schema.dump(user)
-        # data = request.get_json()
-        # j = []
-        # for i in data:
-        #     j.append(i)
         
-        # for item in j:
-        #     if item == userd[item]
-
-
-        # users = UserModel.query.all()
         user = UserModel.find_by_id(id)
-        
-        new_username = request.json['Email']
-        new_email = request.json['Email']
-        new_password = request.json['Password']
-
-        # for key in data.
-
-        
-        
         if user:
-            if UserModel.find_by_email(new_email):
-                return {"message":"This email already taken"},100
+            data = request.get_json()
+            j = []
+            for i in data:
+                j.append(i)
+            if "Instagram_link" in j and "Twitter_link" in j:
+                user.Instagram_link = data['Instagram_link']
+                user.Twitter_link = data['Twitter_link']
+            elif "Password" in j:
+                hashedPS = bcrypt.generate_password_hash(data['Password']).decode('utf-8')
+                user.Password = hashedPS
+            elif "Email" in j:
+                user.Email = data['Email']
             else:
-                user.Username = new_username
-                user.Email = new_email
-                user.Password = new_password
-                user.save_to_db()
-                
-                return user_schema.dump(user), 200
+                return {"message": "Nothing to update"}, 
+            user.save_to_db()
+            return user_schema.dump(user), 200
 
         return {"message": "User is not found!"}, 404
 

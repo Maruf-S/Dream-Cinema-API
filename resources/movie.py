@@ -1,13 +1,12 @@
 from datetime import datetime
+from typing import Text
 from flask_restplus import Resource, reqparse, fields
 from flask import jsonify, request
 from flask_jwt import *
 
-from backend.models.movie import MovieModel
-from backend.ma import *
-from backend import api
-
-
+from Dream_Cinema_API.models.movie import MovieModel
+from Dream_Cinema_API.ma import *
+from Dream_Cinema_API import api
 
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
@@ -33,18 +32,15 @@ class MovieList(Resource):
             Get All Movies from the Database
         '''
         movies = MovieModel.query.all()
-        return movies_schema.dump(movies)
-
-    
-
-    
+        if movies:
+            return movies_schema.dump(movies), 200
+        return {"message" : "No movies in the Database"}, 404
 
     @api.expect(movie)
     def post(self):
         '''
             Create a new movie
         '''
-
         new_movie = MovieModel()
         scdate = request.json['Screening']
         reldate = request.json['ReleaseDate']
@@ -53,16 +49,16 @@ class MovieList(Resource):
         new_movie.Postor = request.json['Postor']
         new_movie.Background = request.json['Background']
         new_movie.Trailer = request.json['Trailer']
-        new_movie.Screening = datetime(int(scdate[:4]), int(scdate[5:7]), int(scdate[8:10]),int(scdate[11:13]), int(scdate[14:16]), int(scdate[17:19]))
+        new_movie.Screening = datetime(int(scdate[6:10]), int(scdate[:2]), int(scdate[3:5]),int(scdate[11:13]), int(scdate[14:16]), 00)
         new_movie.Genre = request.json['Genre']
         new_movie.IDMBRating = request.json['IDMBRating']
         new_movie.AiredBy = request.json['AiredBy']
-        new_movie.ReleaseDate = datetime(int(reldate[:4]), int(reldate[5:7]), int(reldate[8:10]),int(reldate[11:13]), int(reldate[14:16]), int(reldate[17:19]))
+        new_movie.ReleaseDate = datetime(int(reldate[6:10]), int(reldate[:2]), int(reldate[3:5]), 00, 00, 00)
         new_movie.Ticket = request.json['Ticket']
 
         new_movie.save_to_db()
         return movie_schema.dump(new_movie), 201
-
+        
 class Movie(Resource):
 
     movie = api.model("Movie", {
@@ -95,29 +91,28 @@ class Movie(Resource):
         '''
 
         movieToEdit = MovieModel().query.filter_by(id=id).first()
-        try :
-            if movieToEdit:
-                scdate = request.json['Screening']
-                reldate = request.json['ReleaseDate']
 
-                movieToEdit.Title = request.json['Title']
-                movieToEdit.Description = request.json['Description']
-                movieToEdit.Postor = request.json['Postor']
-                movieToEdit.Background = request.json['Background']
-                movieToEdit.Trailer = request.json['Trailer']
-                movieToEdit.Screening = datetime(int(scdate[:4]), int(scdate[5:7]), int(scdate[8:10]),int(scdate[11:13]), int(scdate[14:16]), int(scdate[17:19]))
-                movieToEdit.Genre = request.json['Genre']
-                movieToEdit.IDMBRating = request.json['IDMBRating']
-                movieToEdit.AiredBy = request.json['AiredBy']
-                movieToEdit.ReleaseDate = datetime(int(reldate[:4]), int(reldate[5:7]), int(reldate[8:10]),int(reldate[11:13]), int(reldate[14:16]), int(reldate[17:19]))
-                movieToEdit.Ticket = request.json['Ticket']
+        if movieToEdit:
+            scdate = request.json['Screening']
+            reldate = request.json['ReleaseDate']
 
-                movieToEdit.save_to_db()
-                return movie_schema.dump(movieToEdit), 200
-            
-            return {"message" : "Movie not found"}, 404
-        except:
-            return {"message" : "Please Try Again"}
+            movieToEdit.Title = request.json['Title']
+            movieToEdit.Description = request.json['Description']
+            movieToEdit.Postor = request.json['Postor']
+            movieToEdit.Background = request.json['Background']
+            movieToEdit.Trailer = request.json['Trailer']
+            movieToEdit.Screening = datetime(int(scdate[6:10]), int(scdate[:2]), int(scdate[3:5]),int(scdate[11:13]), int(scdate[14:16]), 00)
+            movieToEdit.Genre = request.json['Genre']
+            movieToEdit.IDMBRating = request.json['IDMBRating']
+            movieToEdit.AiredBy = request.json['AiredBy']
+            movieToEdit.ReleaseDate = datetime(int(reldate[6:10]), int(reldate[:2]), int(reldate[3:5]))
+            movieToEdit.Ticket = request.json['Ticket']
+
+            movieToEdit.save_to_db()
+            return movie_schema.dump(movieToEdit), 200
+        
+        return {"message" : "Movie not found"}, 404
+
 
     def delete(self, id):
         '''

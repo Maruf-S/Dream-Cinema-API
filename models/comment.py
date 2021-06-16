@@ -1,14 +1,13 @@
-from backend import db
+from Dream_Cinema_API import db
 from datetime import datetime
 
 
 class CommentModel(db.Model):
     id = db.Column(db.Integer ,primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False )
-    movie_id = db.Column(db.Integer , db.ForeignKey('movies.id'), nullable=False )
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    movie_id = db.Column(db.Integer , db.ForeignKey('movies.id'), nullable=False)
     comment = db.Column(db.String(), nullable=False)
-    rating = db.Column(db.Float)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
 
     # def __init__(self, user_id, movie_id, comment, rating, date):
     #     self.user_id = user_id

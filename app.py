@@ -1,12 +1,12 @@
-from backend import app
+from Dream_Cinema_API import app
 from flask_restplus import Api, Resource, fields
-from backend import api
+from Dream_Cinema_API import api
 from flask_jwt import JWT, jwt_required, current_identity
-from backend.resources.user import *
-from backend.resources.movie import *
-from backend.resources.comment import *
-from backend.security import authenticate, identity
-from backend.models.user import *
+from Dream_Cinema_API.resources.user import *
+from Dream_Cinema_API.resources.movie import *
+from Dream_Cinema_API.resources.comment import *
+from Dream_Cinema_API.security import authenticate, identity
+from Dream_Cinema_API.models.user import *
 
 
 

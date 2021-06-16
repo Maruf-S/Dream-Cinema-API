@@ -2,9 +2,9 @@ from flask.globals import request
 from datetime import datetime
 from flask_restplus import Resource,fields
 from flask_jwt import jwt_required
-from backend.models.comment import CommentModel
-from backend.ma import *
-from backend import api
+from Dream_Cinema_API.models.comment import CommentModel
+from Dream_Cinema_API.ma import *
+from Dream_Cinema_API import api
 
 
 comment_schema = CommentSchema()
@@ -15,7 +15,6 @@ class UsersComment(Resource):
         'user_id' : fields.Integer,
         'movie_id' : fields.Integer,
         'comment' : fields.String('The Comment'),
-        'rating' : fields.Float,
         'date' : fields.DateTime
     })
 
@@ -26,7 +25,9 @@ class UsersComment(Resource):
 
         '''
         comments = CommentModel.query.all()
-        return comments_schema.dump(comments)
+        if comments:
+            return comments_schema.dump(comments), 200
+        return {"message" : "No comments"}, 400
 
 
     
@@ -42,7 +43,6 @@ class UsersComment(Resource):
         new_comment.user_id = request.json['user_id']
         new_comment.movie_id = request.json['movie_id']
         new_comment.comment = request.json['comment']
-        new_comment.rating = request.json['rating']
         new_comment.date = datetime(int(datejson[:4]), int(datejson[5:7]), int(datejson[8:10]),int(datejson[11:13]), int(datejson[14:16]), int(datejson[17:19]))
         new_comment.save_to_db()
         
@@ -90,7 +90,6 @@ class UserComment(Resource):
             datejson = request.json['date']
 
             commentToEdit.comment = request.json['comment']
-            commentToEdit.rating = request.json['rating']
             commentToEdit.date = datetime(int(datejson[:4]), int(datejson[5:7]), int(datejson[8:10]),int(datejson[11:13]), int(datejson[14:16]), int(datejson[17:19]))
             
             commentToEdit.save_to_db()
@@ -99,11 +98,3 @@ class UserComment(Resource):
         return {"message" : "Comment not found"}, 404
         # except:
         #     return {"message" : "Please Try Again"}
-
-
-
-
-
-
-
-

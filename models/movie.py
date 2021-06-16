@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import unique
 
-from backend import db
+from Dream_Cinema_API import db
 
 
 class MovieModel(db.Model):

@@ -1,19 +1,15 @@
 from flask_jwt import JWT, jwt_required, current_identity
 from werkzeug.security import safe_str_cmp
 
-from backend.models.user import *
-from backend.resources.user import UsersRegister
-
-
-
+from Dream_Cinema_API.models.user import *
+from Dream_Cinema_API.resources.user import UsersRegister
+from Dream_Cinema_API import bcrypt
 
 
 def authenticate(username, password):
     user = UserModel.find_by_email(username)
-
-    if user and safe_str_cmp(user.Password, password):
+    if user and bcrypt.check_password_hash(user.Password, password):
         return user
-
 
 def identity(payload):
     user_id = payload['identity']
