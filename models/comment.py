@@ -1,6 +1,9 @@
 from Dream_Cinema_API import db
 from datetime import datetime
 
+from backend import app
+
+app.app_context().push()
 
 class CommentModel(db.Model):
     id = db.Column(db.Integer ,primary_key=True)
