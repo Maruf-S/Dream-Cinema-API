@@ -3,6 +3,9 @@ from enum import unique
 
 from backend import db
 
+from backend import app
+
+app.app_context().push()
 
 class MovieModel(db.Model):
     __tablename__ = "movies"
