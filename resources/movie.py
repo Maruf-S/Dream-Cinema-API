@@ -114,7 +114,10 @@ class Movie(Resource):
         return {"message" : "Movie not found"}, 404
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
