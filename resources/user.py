@@ -108,12 +108,12 @@ class UserRegister(Resource):
         '''
             delete a user from database
         '''
-        return user_schema.dump(current_identity)
-        # user = UserModel.find_by_id(id)
-        # if user:
-        #     user.delete_from_db()
-        #     return {"message": "User is successfully deleted!"}, 200
-        # return {"message": "User is not found!"}, 404
+        # return user_schema.dump(current_identity)
+        user = UserModel.find_by_id(id)
+        if user:
+            user.delete_from_db()
+            return {"message": "User is successfully deleted!"}, 200
+        return {"message": "User is not found!"}, 404
 
 class CurrentUser(Resource):
     @jwt_required()
