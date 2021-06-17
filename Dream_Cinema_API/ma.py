@@ -29,6 +29,6 @@ class CommentSchema(ma.Schema):
 
 class TicketSchema(ma.Schema):
     class Meta:
-        fields = ("user_id", "movie_id", "ticket_no")
+        fields = ("user_id", "movie_id","ticket_id")
 
         model = TicketModel
