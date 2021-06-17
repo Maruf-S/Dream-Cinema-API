@@ -23,8 +23,8 @@ class MovieModel(db.Model):
     ReleaseDate = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     Ticket = db.Column(db.String, nullable=False)
 
-    def __repr__(self):
-        return f"Movie('{self.title}')"
+    # def __repr__(self):
+    #     return f"Movie('{self.title}')"
 
     # def __init__(self, title, description, postor, background, trailer, screening, genre, idmbRating, airedBy, release, ticket):
     #     self.title = title
