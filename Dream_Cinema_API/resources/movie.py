@@ -8,6 +8,9 @@ from Dream_Cinema_API.models.movie import MovieModel
 from Dream_Cinema_API.ma import *
 from Dream_Cinema_API import api
 import dateutil.parser
+from werkzeug.utils import secure_filename
+import os
+import json
 
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
@@ -37,26 +40,37 @@ class MovieList(Resource):
             return movies_schema.dump(movies), 200
         return {"message" : "No movies in the Database"}, 404
 
-    @api.expect(movie)
+    # @api.expect(movie)
     def post(self):
         '''
             Create a new movie
         '''
+        print("---------_________----0")
+        BudgetJson = json.loads(request.form['json'])
+        print(BudgetJson)
+        file = request.files
+        print(file)
+        imgBg = file['ImgBig']
+        imgSm = file['ImgSml']
+        imgBgName = secure_filename(imgBg.filename)
+        imgSmName = secure_filename(imgSm.filename)
+        imgBg.save(os.path.join(app.root_path, 'ImageUploads',imgBgName ))
+        imgSm.save(os.path.join(app.root_path, 'ImageUploads', imgSmName))
         new_movie = MovieModel()
-        scdate = request.json['Screening']
-        reldate = request.json['ReleaseDate']
-        new_movie.Title = request.json['Title']
-        new_movie.Description = request.json['Description']
-        new_movie.Postor = request.json['Postor']
-        new_movie.Background = request.json['Background']
-        new_movie.Trailer = request.json['Trailer']
+        scdate = BudgetJson.get('Screening')
+        reldate = BudgetJson.get('ReleaseDate')
+        new_movie.Title = BudgetJson.get('Title')
+        new_movie.Description = BudgetJson.get('Description')
+        new_movie.Postor = imgSmName
+        new_movie.Background = imgBgName
+        new_movie.Trailer = BudgetJson.get('Trailer')
         new_movie.Screening = dateutil.parser.isoparse(scdate)
-        new_movie.Genre = request.json['Genre']
-        new_movie.IDMBRating = request.json['IDMBRating']
-        new_movie.AiredBy = request.json['AiredBy']
+        new_movie.Genre = BudgetJson.get('Genre')
+        new_movie.IDMBRating = BudgetJson.get('IDMBRating')
+        new_movie.AiredBy = BudgetJson.get('AiredBy')
         new_movie.ReleaseDate = dateutil.parser.isoparse(reldate)
-        new_movie.Ticket = request.json['Ticket']
-
+        new_movie.Ticket = BudgetJson.get('Ticket')
+        print(new_movie.ReleaseDate)
         new_movie.save_to_db()
         return movie_schema.dump(new_movie), 201
         

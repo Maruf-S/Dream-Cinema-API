@@ -7,7 +7,7 @@ from Dream_Cinema_API.resources.movie import *
 from Dream_Cinema_API.resources.comment import *
 from Dream_Cinema_API.security import authenticate, identity
 from Dream_Cinema_API.models.user import *
-
+from flask_cors import CORS
 
 
 @app.before_first_request
@@ -17,7 +17,7 @@ def create_tables():
 
 
 jwt = JWT(app, authenticate, identity)
-
+CORS(app)
 api.add_resource(UserComment, '/api/v1/comment/<int:id>')
 api.add_resource(UsersComment, '/api/v1/comment/')
 api.add_resource(UsersRegister, '/api/v1/register')
