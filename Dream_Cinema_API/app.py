@@ -5,6 +5,7 @@ from flask_jwt import JWT, jwt_required, current_identity
 from Dream_Cinema_API.resources.user import *
 from Dream_Cinema_API.resources.movie import *
 from Dream_Cinema_API.resources.comment import *
+from Dream_Cinema_API.resources.ticket import *
 from Dream_Cinema_API.security import authenticate, identity
 from Dream_Cinema_API.models.user import *
 
@@ -24,6 +25,8 @@ api.add_resource(UsersRegister, '/api/v1/register')
 api.add_resource(UserRegister, '/api/v1/register/<int:id>')
 api.add_resource(MovieList, '/api/v1/movies')
 api.add_resource(Movie, '/api/v1/movie/<int:id>')
+api.add_resource(Tickets, '/api/v1/Ticket')
+api.add_resource(Ticket, '/api/v1/Ticket/<int:id>')
 
 api.add_resource(CurrentUser, '/api/v1/current_user')
 

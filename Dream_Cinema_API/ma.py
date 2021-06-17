@@ -2,6 +2,7 @@ from flask_marshmallow import Marshmallow
 from Dream_Cinema_API.models.user import *
 from Dream_Cinema_API.models.movie import *
 from Dream_Cinema_API.models.comment import *
+from Dream_Cinema_API.models.ticket import *
 
 ma = Marshmallow()
 
@@ -25,3 +26,9 @@ class CommentSchema(ma.Schema):
         fields = ("user_id", "movie_id", "comment","rating","date")
 
         model = CommentModel
+
+class TicketSchema(ma.Schema):
+    class Meta:
+        fields = ("user_id", "movie_id", "ticket_no")
+
+        model = TicketModel
