@@ -32,3 +32,4 @@ class TicketSchema(ma.Schema):
         fields = ("user_id", "movie_id","ticket_id")
 
         model = TicketModel
+        include_fk=True

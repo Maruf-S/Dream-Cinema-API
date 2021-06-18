@@ -18,8 +18,8 @@ class UserModel(db.Model):
     Instagram_link = db.Column(db.String(40))
 
 
-    # def __init__(self, username, password, email):
-    #     print(UserModel.query.all())
+    def __init__(self, username, password, email):
+        print(UserModel.query.all())
         
     def save_to_db(self):
         db.session.add(self)

@@ -27,7 +27,7 @@ api.add_resource(UsersRegister, '/api/v1/register')
 api.add_resource(UserRegister, '/api/v1/register/<int:id>')
 api.add_resource(MovieList, '/api/v1/movies')
 api.add_resource(Movie, '/api/v1/movie/<int:id>')
-api.add_resource(TicketList, '/api/v1/ticket/')
+api.add_resource(TicketList, '/api/v1/ticket')
 api.add_resource(Ticket, '/api/v1/ticket/<id>')
 
 api.add_resource(CurrentUser, '/api/v1/current_user')

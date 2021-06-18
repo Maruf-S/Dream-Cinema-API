@@ -3,12 +3,10 @@ from uuid import UUID,uuid4
 from flask_sqlalchemy import *
 
 from sqlalchemy.dialects.postgresql import UUID
-
 from sqlalchemy import text as sa_text
 
 
 from Dream_Cinema_API import db
-
 from Dream_Cinema_API import app
 
 app.app_context().push()
@@ -19,8 +17,8 @@ class TicketModel(db.Model):
     movie_id = db.Column(db.Integer , db.ForeignKey('movies.id'), nullable=False)
     
 
-    # def __repr__(self):
-    #     return f"Ticket No.('{self.ticket_no}')"
+    def __repr__(self):
+        return f"Ticket No.('{self.ticket_no}')"
     
     def save_to_db(self):
         db.session.add(self)

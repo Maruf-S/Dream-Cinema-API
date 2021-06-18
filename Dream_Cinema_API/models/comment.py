@@ -19,8 +19,8 @@ class CommentModel(db.Model):
     #     self.comment = comment
     #     self.date = date
 
-    # def __repr__(self):
-    #     return f"Comment('{self.comment}')"
+    def __repr__(self):
+        return f"Comment('{self.comment}')"
 
     
 
@@ -33,20 +33,3 @@ class CommentModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-#     @classmethod
-#     def find_by_movie_id(cls, movie_id):
-#         return cls.query.filter_by(movie_id=movie_id).first()
-
-#     @classmethod
-#     def find_by_id(cls, _id):
-#         return cls.query.filter_by(id=_id).first()
-
-
-#     def jsonify(self):
-#         return {
-#             "comment" : self.comment,
-#             "rating" : self.rating,
-#             "movie_id" : self.movie_id
-#             "user_id" : self.user_id
-#             "date" : self.date
-#         }
