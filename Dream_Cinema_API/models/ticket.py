@@ -17,8 +17,8 @@ class TicketModel(db.Model):
     movie_id = db.Column(db.Integer , db.ForeignKey('movies.id'), nullable=False)
     
 
-    def __repr__(self):
-        return f"Ticket No.('{self.ticket_no}')"
+    # def __repr__(self):
+    #     return f"Ticket No.('{self.ticket_no}')"
     
     def save_to_db(self):
         db.session.add(self)

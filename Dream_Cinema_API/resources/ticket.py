@@ -47,10 +47,10 @@ class TicketList(Resource):
         
         
 
-        new_ticket = TicketModel()
-        new_ticket.user_id = user.id
-        new_ticket.movie_id = request.json['movie_id']
-        new_ticket.save_to_db()
+        # new_ticket = TicketModel()
+        # new_ticket.user_id = user.id
+        # new_ticket.movie_id = request.json['movie_id']
+        # new_ticket.save_to_db()
 
         userEmail = user.Email
         ticket = TicketModel.query.filter_by(user_id=id).first()

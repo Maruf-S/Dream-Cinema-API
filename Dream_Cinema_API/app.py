@@ -7,7 +7,6 @@ from Dream_Cinema_API.resources.user import *
 from Dream_Cinema_API.resources.movie import *
 from Dream_Cinema_API.resources.comment import *
 from Dream_Cinema_API.resources.ticket import *
-
 from Dream_Cinema_API.security import authenticate, identity
 from Dream_Cinema_API.models.user import *
 

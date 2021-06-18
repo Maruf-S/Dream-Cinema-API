@@ -42,6 +42,8 @@ class MovieList(Resource):
         '''
             Create a new movie
         '''
+
+        
         new_movie = MovieModel()
         scdate = request.json['Screening']
         reldate = request.json['ReleaseDate']
@@ -102,11 +104,11 @@ class Movie(Resource):
             movieToEdit.Postor = request.json['Postor']
             movieToEdit.Background = request.json['Background']
             movieToEdit.Trailer = request.json['Trailer']
-            movieToEdit.Screening = datetime(int(scdate[6:10]), int(scdate[:2]), int(scdate[3:5]),int(scdate[11:13]), int(scdate[14:16]), 00)
+            movieToEdit.Screening = dateutil.parser.isoparse(scdate)
             movieToEdit.Genre = request.json['Genre']
             movieToEdit.IDMBRating = request.json['IDMBRating']
             movieToEdit.AiredBy = request.json['AiredBy']
-            movieToEdit.ReleaseDate = datetime(int(reldate[6:10]), int(reldate[:2]), int(reldate[3:5]))
+            movieToEdit.ReleaseDate = dateutil.parser.isoparse(reldate)
             movieToEdit.Ticket = request.json['Ticket']
 
             movieToEdit.save_to_db()
