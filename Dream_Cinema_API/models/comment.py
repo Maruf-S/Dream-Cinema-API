@@ -1,8 +1,9 @@
 from Dream_Cinema_API import db
 from datetime import datetime
-
 from Dream_Cinema_API import app
-
+from Dream_Cinema_API.models.user import UserModel
+from Dream_Cinema_API.models.movie import MovieModel
+from Dream_Cinema_API.models.movieComment import MovieCommentModel
 app.app_context().push()
 
 class CommentModel(db.Model):
@@ -32,10 +33,17 @@ class CommentModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+    
+    @classmethod
+    def getAll(cls,mov_id):
+        result = db.session.query().join(UserModel,UserModel.id == CommentModel.user_id).join(MovieModel, MovieModel.id==mov_id).add_columns( MovieModel.Title, CommentModel.comment, CommentModel.date,UserModel.Email).all()
+        if(not result):
+            return result
+        mappedRes = []
+        for item in result:
+            mappedRes.append(MovieCommentModel(Comment=item['comment'],Email=item['Email'],Date=item['date']))
+        return mappedRes
 
-#     @classmethod
-#     def find_by_movie_id(cls, movie_id):
-#         return cls.query.filter_by(movie_id=movie_id).first()
 
 #     @classmethod
 #     def find_by_id(cls, _id):
@@ -50,3 +58,4 @@ class CommentModel(db.Model):
 #             "user_id" : self.user_id
 #             "date" : self.date
 #         }
+print((CommentModel.getAll(1)))
