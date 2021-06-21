@@ -1,41 +1,35 @@
-import smtplib, ssl
-from smtplib import SMTP
+import smtplib
 from email.mime.text import MIMEText
 
-def sendMailToClient(ticket, userEmail):
-    port = 587
-    smtp_server = "smtp.gmail.com"
-    login = 'c3418a1b389673'
-    password = 'dreamcinema@gmail.com'
-    message = "<h3>below is your ticket number</h3>\
-            <ul><li>Ticket Number:<strong> {}</strong></li>".format(ticket.ticket_id)
+def sendMailToTutor(ticket_Id, tutorEmail):
+    port = 2525
+    smtp_sever = 'smtp.mailtrap.io'
+    login = '3aace52c5332a2'
+    password = '6397b758c896a4'
+    message = """ 
+    <!DOCTYPE html>
+<html>
+<body>
 
-    sender_email = 'dreamcinemamtma@gmail.com'
-    receiver_email = userEmail
+<h3>Ticket</h3>
+
+<figure>
+  <img src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={}' alt='Ticket'>
+  <figcaption>Movie Ticket for Aqua Man</figcaption>
+</figure>
+
+</body>
+</html>
+    """.format(ticket_Id)
+    sender_email = 'DreamCinema@Ticket.com'
+    reciever_email = tutorEmail
     msg = MIMEText(message, 'html')
-    msg['Subject'] = 'DreamCinemaTicket'
+    msg['Subject'] = 'Ticket confirmation'
     msg['From']=sender_email
-    msg['To']=receiver_email
-    print("herewew")
+    msg['To']=reciever_email
 
+    with smtplib.SMTP(smtp_sever, port) as server:
+        server.login(login, password)
+        print(server.sendmail(sender_email, reciever_email, msg.as_string()))
 
-    # context = ssl.create_default_context()
-    # with smtplib.SMTP(smtp_server, port) as server:
-    #     server.ehlo()  # Can be omitted
-    #     server.starttls(context=context)
-    #     server.ehlo()  # Can be omitted
-    #     server.login(sender_email, password)
-    #     server.sendmail(sender_email, receiver_email, msg.as_string())
-
-
-    context = ssl.create_default_context()
-    server = smtplib.SMTP_SSL('smtp.gmail.com', port)
-    server.ehlo()  # Can be omitted
-    server.starttls(context=context)
-    server.ehlo()  # Can be omitted
-    server.login(sender_email,password)
-    server.sendmail(
-    sender_email, receiver_email, msg.as_string())
-    server.quit()
-    
 

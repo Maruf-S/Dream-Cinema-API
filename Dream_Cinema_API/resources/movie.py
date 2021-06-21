@@ -45,7 +45,6 @@ class MovieList(Resource):
         '''
             Create a new movie
         '''
-<<<<<<< HEAD
         print("---------_________----0")
         BudgetJson = json.loads(request.form['json'])
         print(BudgetJson)
@@ -57,10 +56,6 @@ class MovieList(Resource):
         imgSmName = secure_filename(imgSm.filename)
         imgBg.save(os.path.join(app.root_path, 'ImageUploads',imgBgName ))
         imgSm.save(os.path.join(app.root_path, 'ImageUploads', imgSmName))
-=======
-
-        
->>>>>>> 229ecf3f8f03bbeacb40e725d66e837ca13abc03
         new_movie = MovieModel()
         scdate = BudgetJson.get('Screening')
         reldate = BudgetJson.get('ReleaseDate')

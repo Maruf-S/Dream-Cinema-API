@@ -7,7 +7,7 @@ from flask_jwt import jwt_required,current_identity
 from Dream_Cinema_API.models.ticket import TicketModel
 from Dream_Cinema_API.ma import *
 from Dream_Cinema_API import api
-from sendmail import sendMailToClient
+from Dream_Cinema_API.resources.sendmail import sendMailToTutor
 
 
 
@@ -47,17 +47,16 @@ class TicketList(Resource):
         
         
 
-        # new_ticket = TicketModel()
-        # new_ticket.user_id = user.id
-        # new_ticket.movie_id = request.json['movie_id']
-        # new_ticket.save_to_db()
-
+        new_ticket = TicketModel()
+        new_ticket.user_id = user.id
+        new_ticket.movie_id = request.json['movie_id']
+        new_ticket.save_to_db()
         userEmail = user.Email
-        ticket = TicketModel.query.filter_by(user_id=id).first()
-        
-        sendMailToClient(ticket,userEmail)
-        
-        return {"message": "Ticket added successfully."}, 201
+        # ticket = TicketModel.query.filter_by(user_id=id).first()
+
+        return ticket_schema.dump(new_ticket),201
+
+        # return {"message": "Ticket added successfully."}, 201
 
         
         
@@ -106,3 +105,4 @@ class Ticket(Resource):
     #     return {"message" : "Ticket not found"}, 404
         # except:
         #     return {"message" : "Please Try Again"}
+sendMailToTutor("Thot","se.maruf.sherefa@gmail.com")
