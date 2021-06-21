@@ -20,8 +20,8 @@ class CommentModel(db.Model):
     #     self.comment = comment
     #     self.date = date
 
-    def __repr__(self):
-        return f"Comment('{self.comment}')"
+    # def __repr__(self):
+    #     return f"Comment('{self.comment}')"
 
     
 

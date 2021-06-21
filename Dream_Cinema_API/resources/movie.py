@@ -45,6 +45,7 @@ class MovieList(Resource):
         '''
             Create a new movie
         '''
+<<<<<<< HEAD
         print("---------_________----0")
         BudgetJson = json.loads(request.form['json'])
         print(BudgetJson)
@@ -56,6 +57,10 @@ class MovieList(Resource):
         imgSmName = secure_filename(imgSm.filename)
         imgBg.save(os.path.join(app.root_path, 'ImageUploads',imgBgName ))
         imgSm.save(os.path.join(app.root_path, 'ImageUploads', imgSmName))
+=======
+
+        
+>>>>>>> 229ecf3f8f03bbeacb40e725d66e837ca13abc03
         new_movie = MovieModel()
         scdate = BudgetJson.get('Screening')
         reldate = BudgetJson.get('ReleaseDate')
@@ -116,11 +121,11 @@ class Movie(Resource):
             movieToEdit.Postor = request.json['Postor']
             movieToEdit.Background = request.json['Background']
             movieToEdit.Trailer = request.json['Trailer']
-            movieToEdit.Screening = datetime(int(scdate[6:10]), int(scdate[:2]), int(scdate[3:5]),int(scdate[11:13]), int(scdate[14:16]), 00)
+            movieToEdit.Screening = dateutil.parser.isoparse(scdate)
             movieToEdit.Genre = request.json['Genre']
             movieToEdit.IDMBRating = request.json['IDMBRating']
             movieToEdit.AiredBy = request.json['AiredBy']
-            movieToEdit.ReleaseDate = datetime(int(reldate[6:10]), int(reldate[:2]), int(reldate[3:5]))
+            movieToEdit.ReleaseDate = dateutil.parser.isoparse(reldate)
             movieToEdit.Ticket = request.json['Ticket']
 
             movieToEdit.save_to_db()
